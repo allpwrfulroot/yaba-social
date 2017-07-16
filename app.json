@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "YABA",
+    "description": "Demo chat app with crazy react-navigation, Apollo+Graph.cool, a smidge of Redux for no real reason, and login/signup/profile",
+    "slug": "yaba-social",
+    "privacy": "public",
+    "sdkVersion": "18.0.0",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "icon": "./assets/icons/app.png",
+    "loading": {
+      "icon": "./assets/icons/loading.png",
+      "hideExponentText": false
+    },
+    "packagerOpts": {
+      "assetExts": ["otf", "ttf", "mp4"]
+    },
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}
