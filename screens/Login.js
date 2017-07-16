@@ -15,92 +15,17 @@ import {
 
 export default class Login extends React.Component {
   state = {
-    isLoading: true,
+    isLoading: false,
     email: null,
     password: null
   }
 
-  componentWillMount() {
-    this.getInfo()
-  }
-
-  getInfo = async() => {
-    try {
-      const values = await AsyncStorage.multiGet(['Token', 'User'])
-      console.log('Looking for token and user, got ', values)
-      if (values[0][1] !== null) {
-        console.log('Token found in AsyncStorage, proceeding to App')
-        this.props.navigation.navigate('App')
-      } else {
-        console.log('no token found in AsyncStorage, proceeding to Login')
-        this.setState({isLoading: false})
-      }
-    } catch (error) {
-      console.log('Error in getInfo: ', error)
-    }
-  }
-
-  storeInfo = async(info) => {
-    console.log('info for storeInfo: ', info.token)
-    AsyncStorage.multiSet([['Token', info.token], ['User', info.user.id]], err => {
-      if (err) {
-        console.log('Error in Login -> storeInfo: ', err)
-      }
-      else {
-        console.log('OK from storeInfo')
-        this.props.navigation.navigate('SubNav')
-      }
-    })
+  login = () => {
+    this.props.navigation.navigate('App')
   }
 
   signup = () => {
-    let re = /\S+@\S+\.\S+/
-    if (this.state.password && this.state.password.length >= 6 && this.state.email && re.test(this.state.email)) {
-      console.log('Valid credentials!')
-      this.props.client.query({
-        query: DoesUserExistQuery,
-        variables: {
-          email: this.state.email
-        }
-      })
-      .then( response => {
-        console.log('response from doesUserExist: ', response)
-        if(response.data.User && response.data.User.id){
-          Alert.alert('Error', 'That email is already in use')
-        } else {
-          let creds = {
-            email: this.state.email,
-            password: this.state.password
-          }
-          this.props.navigation.navigate('Signup', creds)
-        }
-      })
-      .catch( error => console.log('error in doesUserExist: ', error.message))
-    } else {
-      Alert.alert('Invalid credentials!', 'Need a valid email and password >5 characters')
-    }
-  }
-
-  login = () => {
-    let re = /\S+@\S+\.\S+/  //checks for reasonable email format
-    if (this.state.password && this.state.password.length >= 6 && this.state.email && re.test(this.state.email)) {
-      console.log('Valid credentials!')
-      let creds = {
-        email: this.state.email,
-        password: this.state.password
-      }
-      this.props.login(creds)
-      .then( res => {
-        // console.log('login: ', res)
-        this.storeInfo(res.data.signinUser)
-      })
-      .catch( err => {
-        // console.log('error: ', err)
-        Alert.alert('Error!', err.message)
-      })
-    } else {
-      Alert.alert('Invalid credentials!')
-    }
+    this.props.navigation.navigate('Signup')
   }
 
   focusNext = (nextField) => {

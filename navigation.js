@@ -268,10 +268,19 @@ const SignupStack = StackNavigator({
   SignupStart: {
     screen: SignupStart,
     navigationOptions: ({ navigation }) => ({
-      title: 'Sign up!',
+      title: 'Getting started',
+      ...defaultHeader,
       headerLeft: (
-        <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
-          <Ionicons name='md-menu' size={28} color={'white'} style={{paddingLeft: 12}}/>
+        <TouchableOpacity
+          onPress={() => {
+            let resetAction = NavigationActions.reset({
+              index: 0,
+              actions: [ NavigationActions.navigate({ routeName: 'Login' }) ],
+              key: null
+            })
+            navigation.dispatch(resetAction)
+          }} >
+          <Ionicons name='ios-arrow-back' size={28} color={'white'} style={{paddingHorizontal: 15}} />
         </TouchableOpacity>
       )
     })
@@ -279,14 +288,14 @@ const SignupStack = StackNavigator({
   SignupFinish: {
     screen: SignupFinish,
     navigationOptions: {
-      header: null
+      title: 'Welcome!',
+      ...defaultHeader
     }
   }
 },{
+  mode: 'card',
   headerMode: 'screen',
-  navigationOptions: {
-    ...defaultHeader,
-  }
+  // transitionConfig: () => ({ screenInterpolator: () => null })
 })
 
 const DrawerNavigation = DrawerNavigator({
@@ -360,16 +369,25 @@ const DrawerNavigation = DrawerNavigator({
         </ScrollView>
       </View>
 
-      <View style={styles.footer}>
+      <TouchableOpacity
+        style={styles.footer}
+        onPress={() => {
+          let resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({ routeName: 'Login' })
+            ],
+            key: null
+          })
+          navigation.dispatch(resetAction)
+        }}>
         <Text style={styles.drawerText}>Logout</Text>
-        <TouchableOpacity>
-          <Ionicons
-            name='md-exit'
-            size={22}
-            color='white'
-          />
-        </TouchableOpacity>
-      </View>
+        <Ionicons
+          name='md-exit'
+          size={22}
+          color='white'
+        />
+      </TouchableOpacity>
 
     </View>
 })
@@ -381,11 +399,17 @@ const MainNavigation = StackNavigator({
       header: null
     }
   },
+  Signup: {
+    screen: SignupStack,
+    navigationOptions: {
+      header: null
+    }
+  },
   App: {
     screen: DrawerNavigation
   }
 },{
-  initialRouteName: 'App',
+  initialRouteName: 'Login',
   mode: 'card',
   headerMode: 'none',
 })
