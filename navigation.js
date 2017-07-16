@@ -40,22 +40,14 @@ import MyProfile from './screens/MyProfile'
 const defaultTabs = {
   labelStyle: {
     fontFamily: 'nemoy-medium',
-    fontSize: 16,
-    margin: 0,
-    paddingVertical: 12,
+    fontSize: 16
   },
   indicatorStyle: {
     borderColor: 'lightgray',
     borderWidth: 2,
   },
   style: {
-    backgroundColor: 'black',
-    shadowColor: 'grey',
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 2,
-    shadowOpacity: .5,
-    elevation: 100,
-    zIndex: 5
+    backgroundColor: 'black'
   },
   tabStyle: {
     padding: 0,
