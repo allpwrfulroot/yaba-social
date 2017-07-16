@@ -18,7 +18,7 @@ function makeApolloClient(graphcoollUrl, subscriptionUrl) {
       // For rapid development, often easiest to manually log in a user on
       // the backend and hard-code the resulting token here:
       //////////////////////////////////////////////////////////////////////
-      req.options.headers.Authorization = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MDIzNzkyODUsImlhdCI6MTQ5OTc4NzI4NSwicHJvamVjdElkIjoiY2o0ZW11NWozOWttZDAxOTJreTI3MTA4eCIsInVzZXJJZCI6ImNqNHpxbWpyZWE2MXIwMTIxdzRlZWgxeXoiLCJhdXRoRGF0YSI6eyJlbWFpbCI6ImFzbGtkakBzbGRramZzLnNkbGtmaiJ9LCJtb2RlbE5hbWUiOiJVc2VyIn0.OSI9aHZQJA2FKDU-Gf33nBrkZxUhmOEaRe4fh8VkNs4'
+      req.options.headers.Authorization = 'Bearer pasteTokenHere'
       next()
 
       //////////////////////////////////////////////////////////////////////
