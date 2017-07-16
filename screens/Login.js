@@ -12,10 +12,6 @@ import {
   Alert,
   TouchableOpacity
 } from 'react-native'
-// import { withApollo, graphql, gql, compose } from 'react-apollo'
-
-// import LoginMutation from '../data/LoginMutation'
-// import DoesUserExistQuery from '../data/DoesUserExistQuery'
 
 export default class Login extends React.Component {
   state = {
@@ -27,10 +23,6 @@ export default class Login extends React.Component {
   componentWillMount() {
     this.getInfo()
   }
-  //
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('cWRP from Login: ', nextProps)
-  // }
 
   getInfo = async() => {
     try {
@@ -232,17 +224,3 @@ const styles = StyleSheet.create({
     fontSize: 14
   }
 })
-
-// export default compose(
-//   withApollo, //enables on-demand query
-//   graphql(LoginMutation, {
-//     props: ({ mutate }) => ({
-//       login: ({email, password}) => mutate({
-//         variables: {
-//           email: email,
-//           password: password
-//         }
-//       })
-//     })
-//   })
-// )(Login)
