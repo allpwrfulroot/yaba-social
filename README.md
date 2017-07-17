@@ -9,4 +9,4 @@ View for yourself [on Expo](https://exp.host/@allpwrfulroot/yaba-social)
 - [ ] Wire up Chats page with GraphQL
 - [ ] Wire up Events page with GraphQL
 
-![Demo GIF](https://github.com/allpwrfulroot/yaba-social/blob/master/yaba-init.gif)
+![Demo GIF](https://github.com/allpwrfulroot/yaba-social/blob/master/yaba-init2.gif)
