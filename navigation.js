@@ -295,7 +295,7 @@ const SignupStack = StackNavigator({
 },{
   mode: 'card',
   headerMode: 'screen',
-  // transitionConfig: () => ({ screenInterpolator: () => null })
+  transitionConfig: () => ({ screenInterpolator: () => null })
 })
 
 const DrawerNavigation = DrawerNavigator({
