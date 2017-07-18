@@ -2,3 +2,4 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 config*
+data_scripts/node_modules/**/*
