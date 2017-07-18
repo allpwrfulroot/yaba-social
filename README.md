@@ -4,7 +4,7 @@ Yet Another Boilerplate App created with [Expo](https://expo.io), [react-navigat
 View for yourself [on Expo](https://exp.host/@allpwrfulroot/yaba-social)
 
 - [x] react-navigation (Drawer, Tab, Stack, combos, stack resets, and a modal for good measure)
-- [ ] Load mock data into Graph.cool; add CSV's and Node scripts to repo
+- [x] Load mock data into Graph.cool; add CSV's and Node scripts to repo
 - [x] Add Apollo config
 - [ ] Wire up Chats and Events pages with GraphQL
 - [ ] Redux and search
@@ -20,7 +20,7 @@ This project is built up over several parts:
 - **editprofile:** Update your profile photo and information using react-apollo
 
 ## About the mock data
-The mock data for this project has relied on [the randomuser.me API](randomuser.me), [lorem ipsum generators](https://loremipsumgenerator.com), some Node scripts saved in the data_scripts directory, and just making stuff up. 
+The mock data for this project has relied on the [randomuser.me](randomuser.me) API, [lorem ipsum generators](https://loremipsumgenerator.com), some Node scripts saved in the data_scripts directory, and just making stuff up.
 
 ## Other resources used
 Some [open source fonts](https://fontlibrary.org), lots of built-in [icon libraries](https://expo.github.io/vector-icons/), and docs. Lots of docs.

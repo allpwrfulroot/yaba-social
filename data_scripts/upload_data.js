@@ -1,6 +1,12 @@
-// to run:
+// To upload Events:
 // $ npm install
 // $ npm start
+
+// To upload new Users:
+// the mutation will have to be modified!
+// For example, there's an authentication part
+// Consider it a challenge problem
+// (the answer is in the Graph.cool docs ;) 
 
 import csv from 'csvtojson'
 import {Lokka} from 'lokka'
