@@ -4,7 +4,7 @@ import {
   View
 } from 'react-native'
 
-export default class ThirdTab extends React.Component {
+export default class TopFilter extends React.Component {
   render() {
     return (
       <View>

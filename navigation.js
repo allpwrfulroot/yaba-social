@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Platform,
   Text,
+  TextInput,
   StyleSheet,
   Image,
   ScrollView,
@@ -19,6 +20,8 @@ import {
 import {
   Ionicons
 } from '@expo/vector-icons'
+import BubbleText from './screens/components/BubbleText'
+import Search from './screens/components/Search'
 
 import Login from './screens/Login'
 import SignupStart from './screens/SignupStart'
@@ -31,15 +34,17 @@ import EventDetails from './screens/EventDetails'
 import EventMessages from './screens/EventMessages'
 import EventOther from './screens/EventOther'
 import EventsFilter from './screens/EventsFilter'
-import Tbd from './screens/Tbd'
+import CustomSearch from './screens/CustomSearch'
 import FirstTab from './screens/FirstTab'
 import SecondTab from './screens/SecondTab'
 import ThirdTab from './screens/ThirdTab'
 import MyProfile from './screens/MyProfile'
+import TopFilter from './screens/TopFilter'
+import Lightbox from './screens/Lightbox'
 
 const defaultTabs = {
   labelStyle: {
-    fontFamily: 'nemoy-medium',
+    fontFamily: 'os-reg',
     fontSize: 16
   },
   indicatorStyle: {
@@ -62,7 +67,7 @@ const defaultHeader = {
   },
   headerTitleStyle: {
     alignSelf: 'flex-start',
-    fontFamily: 'nemoy-medium',
+    fontFamily: 'os-reg',
     fontSize: 20,
     marginLeft: Platform.OS === 'ios' ? -10 : 10
   },
@@ -75,9 +80,14 @@ const EventsWithFilterStack = StackNavigator({
     screen: EventsPage,
     navigationOptions: ({ navigation }) => ({
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate('EventsFilter')} >
-          <Ionicons name='md-switch' size={28} color={'white'} style={{paddingRight: 12}}/>
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity onPress={() => navigation.navigate('TopFilter')} >
+            <BubbleText text='Hi' color='yellow' />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('EventsFilter')} >
+            <BubbleText text='Lo' color='green' />
+          </TouchableOpacity>
+        </View>
       )
     })
   },
@@ -188,19 +198,26 @@ const HomeStackSummary = StackNavigator({
   }
 })
 
-const TbdStack = StackNavigator({
-  Tbd: {
-    screen: Tbd,
+const CustomSearchStack = StackNavigator({
+  CustomSearch: {
+    screen: CustomSearch,
     navigationOptions: ({ navigation }) => ({
-      title: 'TBD',
-      headerLeft: (
-        <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
-          <Ionicons name='md-menu' size={28} color={'white'} style={{paddingLeft: 12}}/>
-        </TouchableOpacity>
-      )
+      header: <Search navigation={navigation}/>,
+      // headerLeft: (
+      //   <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
+      //     <Ionicons name='md-menu' size={28} color={'white'} style={{paddingLeft: 12}}/>
+      //   </TouchableOpacity>
+      // )
     })
+  },
+  Modal: {
+    screen: Lightbox,
+    navigationOptions: {
+      header: null
+    }
   }
 },{
+  mode: 'modal',
   headerMode: 'screen',
   navigationOptions: {
     ...defaultHeader
@@ -302,19 +319,19 @@ const DrawerNavigation = DrawerNavigator({
   Home: {
     screen: HomeStackSummary,
   },
-  Tbd: {
-    screen: TbdStack,
+  CustomSearch: {
+    screen: CustomSearchStack,
   },
-  BottomTabs: {
-    screen: BottomTabsStack,
-  },
+  // BottomTabs: {
+  //   screen: BottomTabsStack,
+  // },
   MyProfile: {
     screen: MyProfileStack,
   }
 },
 {
-  initialRouteName: 'Home',
-  contentComponent: ({navigation}) =>
+  initialRouteName: 'CustomSearch',
+  contentComponent: ({ navigation }) =>
     <View style={styles.drawer}>
       <View style={{flex: 1}}>
         <View style={styles.header}>
@@ -349,22 +366,24 @@ const DrawerNavigation = DrawerNavigator({
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.state.index === 1 ? navigation.navigate('DrawerClose') : navigation.navigate('Tbd')}
+            onPress={() => navigation.state.index === 1 ? navigation.navigate('DrawerClose') : navigation.navigate('CustomSearch')}
             style={[styles.drawerItem, navigation.state.index === 1 ? {backgroundColor: 'black'} : null]}>
-            <Text style={styles.drawerText}>TBD</Text>
+            <Text style={styles.drawerText}>Custom search</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.state.index === 2 ? navigation.navigate('DrawerClose') : navigation.navigate('BottomTabs')}
             style={[styles.drawerItem, navigation.state.index === 2 ? {backgroundColor: 'black'} : null]}>
             <Text style={styles.drawerText}>Bottom Tabs</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={() => navigation.state.index === 3 ? navigation.navigate('DrawerClose') : navigation.navigate('MyProfile')}
             style={[styles.drawerItem, navigation.state.index === 3 ? {backgroundColor: 'black'} : null]}>
             <Text style={styles.drawerText}>My Profile</Text>
           </TouchableOpacity>
+
+          <Text>{JSON.stringify(navigation, null, '  ')}</Text>
 
         </ScrollView>
       </View>
@@ -392,29 +411,55 @@ const DrawerNavigation = DrawerNavigator({
     </View>
 })
 
-const MainNavigation = StackNavigator({
-  Login: {
-    screen: Login,
+const WrappedApp = StackNavigator({
+  MainApp: {
+    screen: DrawerNavigation,
     navigationOptions: {
       header: null
     }
   },
-  Signup: {
-    screen: SignupStack,
-    navigationOptions: {
-      header: null
-    }
-  },
-  App: {
-    screen: DrawerNavigation
+  TopFilter: {
+    screen: TopFilter,
+    navigationOptions: ({ navigation }) => ({
+      ...defaultHeader,
+      title: 'mode: Modal',
+      headerLeft: null,
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.goBack()} >
+          <Ionicons name='md-close' size={28} color={'white'} style={{paddingRight: 12}}/>
+        </TouchableOpacity>
+      )
+    })
   }
 },{
-  initialRouteName: 'Login',
-  mode: 'card',
+  mode: 'modal',
+})
+
+const MainNavigation = StackNavigator({
+  Login: {
+    screen: Login
+  },
+  Signup: {
+    screen: SignupStack
+  },
+  App: {
+    screen: WrappedApp
+  }
+},{
+  initialRouteName: 'App',
   headerMode: 'none',
 })
 
 const styles = StyleSheet.create({
+  searchinput: {
+    flex: 1,
+    height: 30,
+    fontSize: 18,
+    fontFamily: 'os-reg',
+    color: '#2B2B2B',
+    paddingHorizontal: 10,
+    paddingTop: 6
+  },
   drawer: {
     flex: 1,
     justifyContent: 'space-between',
@@ -431,7 +476,7 @@ const styles = StyleSheet.create({
   drawerText: {
     color: '#fff',
     fontSize: 18,
-    // fontFamily: 'nemoy-medium',
+    fontFamily: 'state',
     padding: 14
   },
   header: {

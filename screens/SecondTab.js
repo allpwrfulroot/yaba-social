@@ -8,7 +8,7 @@ export default class SecondTab extends React.Component {
   render() {
     return (
       <View>
-        <Text>Tab Page #2</Text>
+        <Text>{JSON.stringify(this.props.navigation, null, '\t')}</Text>
       </View>
     )
   }

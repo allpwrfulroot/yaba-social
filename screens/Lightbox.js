@@ -4,10 +4,10 @@ import {
   View
 } from 'react-native'
 
-export default class ThirdTab extends React.Component {
+export default class Lightbox extends React.Component {
   render() {
     return (
-      <View>
+      <View style={{ backgroundColor: 'transparent', margin: 25, shadowOpacity: 0 }}>
         <Text>{JSON.stringify(this.props.navigation, null, '\t')}</Text>
       </View>
     )

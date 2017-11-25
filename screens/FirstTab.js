@@ -1,15 +1,34 @@
 import React from 'react'
 import {
   Text,
-  View
+  FlatList
 } from 'react-native'
+import ChatListItem from './components/ChatListItem'
+
+import DATA from '../users.json'
 
 export default class FirstTab extends React.Component {
+  goToChat = person => {}
+
+  goToProfile = person => {}
+
+  _keyExtractor = (item, index) => item.email
+
+  _renderItem = ({ item }) => (
+    <ChatListItem
+      person={item}
+      goToChat={this.goToChat}
+      goToProfile={this.goToProfile}
+    />
+  )
+
   render() {
     return (
-      <View>
-        <Text>Tab Page #1</Text>
-      </View>
+      <FlatList
+        data={DATA.results}
+        renderItem={this._renderItem}
+        keyExtractor={this._keyExtractor}
+      />
     )
   }
 }

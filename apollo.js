@@ -1,58 +1,83 @@
-// With heavy inspiration from Scaphold.io and Graph.cool docs
-
 import { AsyncStorage } from 'react-native'
-import ApolloClient, { createBatchingNetworkInterface } from 'apollo-client'
-import {
-  SubscriptionClient,
-  addGraphQLSubscriptions
-} from 'subscriptions-transport-ws'
+// import config from './config'
 
-function makeApolloClient(graphcoollUrl, subscriptionUrl) {
-  const networkInterface = createBatchingNetworkInterface({uri: graphcoolUrl})
-  networkInterface.use([{
-    applyBatchMiddleware(req, next) {
-      if (!req.options.headers) {
-        req.options.headers = {}
+import { ApolloClient } from 'apollo-client'
+// import { createHttpLink } from 'apollo-link-http'
+// import { setContext } from 'apollo-link-context'
+// import { onError } from 'apollo-link-error'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { withClientState } from 'apollo-link-state'
+import gql from 'graphql-tag';
+
+const cache = new InMemoryCache({
+  dataIdFromObject: o => o.id
+});
+
+// const httpLink = createHttpLink({ uri: config.graphqlUrl })
+
+// const authLink = setContext(async (req, { headers }) => {
+//   const token = await AsyncStorage.getItem('Token')
+//   console.log('sanity token: ', token)
+//   return {
+//     ...headers,
+//     headers: {
+//       Authorization: token ? `Bearer ${token}` : null,
+//     },
+//   }
+// })
+
+const localState = withClientState({
+  Query: {
+    getFilters: () => ({
+      search: '',
+      categories: [],
+      tags: [],
+      __typename: 'SearchFilter'
+    }),
+  },
+  Mutation: {
+    updateFilters: (_, { search, categories, tags }, { cache }) => {
+      const data = {
+        search: search,
+        categories: categories,
+        tags: tags,
+        __typename: 'SearchFilter'
       }
-      //////////////////////////////////////////////////////////////////////
-      // For rapid development, often easiest to manually log in a user on
-      // the backend and hard-code the resulting token here:
-      //////////////////////////////////////////////////////////////////////
-      req.options.headers.Authorization = 'Bearer pasteTokenHere'
-      next()
-
-      //////////////////////////////////////////////////////////////////////
-      // In reality, you store the token in AsyncStorage at login and use here:
-      //////////////////////////////////////////////////////////////////////
-      // AsyncStorage.getItem('Token')
-      // .then(token => {
-      //   if (token !== null) {
-      //     req.options.headers.Authorization = `Bearer ${token}`
-      //   } else {
-      //     console.log('No token!')
-      //   }
-      //   next()
-      // })
-      // .catch(err => {console.log('error in mAC AsyncStorage: ', err)})
-      // .done()
+      cache.writeQuery({ query, variables, data })
+      return null
     }
-  }])
+  },
+})
 
-  const wsClient = new SubscriptionClient(subscriptionUrl, {
-    reconnect: true
-  })
+export const GetFilters = gql`
+  query getFilters {
+    getFilters @client {
+      search
+      categories
+      tags
+    }
+  }
+`
 
-  const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-    networkInterface,
-    wsClient
-  )
-  const clientGraphql = new ApolloClient({
-    networkInterface: networkInterfaceWithSubscriptions,
-    dataIdFromObject: o => o.id,
-    initialState: {},
-    batchInterval: 20
-  })
-  return clientGraphql
-}
+export const UpdateFilters = gql`
+  mutation updateFilters(
+    $search: String,
+    $categories: [String!],
+    $tags: [String!]
+  ){
+    updateFilters(
+      search: $message,
+      categories: $title,
+      tags: $tags
+    ) @client
+  }
+`
+// const temp = localState.concat(httpLink)
+// const link = authLink.concat(temp)
 
-export default makeApolloClient
+const client = new ApolloClient({
+  link: localState,
+  cache: cache
+})
+
+export default client

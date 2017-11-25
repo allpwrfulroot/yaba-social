@@ -4,14 +4,14 @@
     "description": "Demo chat app with crazy react-navigation, Apollo+Graph.cool, a smidge of Redux for no real reason, and login/signup/profile. github.com/allpwrfulroot/yaba-social",
     "slug": "yaba-social",
     "privacy": "public",
-    "sdkVersion": "18.0.0",
-    "version": "0.0.1",
+    "sdkVersion": "23.0.0",
+    "version": "0.0.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/app.png",
     "loading": {
       "icon": "./assets/icons/loading.png",
-      "hideExponentText": false
+      "hideExponentText": true
     },
     "packagerOpts": {
       "assetExts": ["otf", "ttf", "mp4"]

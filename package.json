@@ -6,13 +6,15 @@
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "dependencies": {
-    "apollo-client": "^1.9.0-0",
-    "expo": "^18.0.4",
-    "prop-types": "^15.5.10",
-    "react": "16.0.0-alpha.12",
-    "react-apollo": "^1.4.3",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-18.0.1.tar.gz",
-    "react-navigation": "^1.0.0-beta.11",
-    "subscriptions-transport-ws": "^0.8.1"
+    "apollo-cache-inmemory": "^1.1.1",
+    "apollo-client": "^2.0.3",
+    "apollo-link-state": "0.0.4",
+    "expo": "^23.0.0",
+    "graphql": "^0.11.7",
+    "graphql-tag": "^2.5.0",
+    "react": "16.0.0",
+    "react-apollo": "^2.0.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
+    "react-navigation": "^1.0.0-beta.21"
   }
 }

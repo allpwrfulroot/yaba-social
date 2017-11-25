@@ -1,0 +1,73 @@
+import React, { Component } from 'react'
+import { View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Alert,
+  TouchableOpacity
+} from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+
+export default class Search extends Component {
+  state = {
+    search: ''
+  }
+
+  _onSubmitSearch = async () => {
+    // try {
+    //   console.log('submitted!')
+    // } catch (err) {
+    //   Alert.alert('Oops', err)
+    // }
+  }
+
+  render () {
+    let { navigation } = this.props
+    return (
+      <View style={styles.searchbar}>
+        <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
+           <Ionicons name='md-menu' size={28} color={'white'} style={{paddingHorizontal: 12}}/>
+        </TouchableOpacity>
+
+        <TextInput
+          returnKeyType='search'
+          onChangeText={(search) => this.setState({ search })}
+          placeholder='Search'
+          placeholderTextColor='lightgrey'
+          onSubmitEditing={this._onSubmitSearch}
+          value={this.state.search}
+          style={styles.searchinput}
+        />
+
+        <TouchableOpacity onPress={() => navigation.setParams({ showModal:
+          !!navigation.state.params && !!navigation.state.params.showModal
+          ? !navigation.state.params.showModal
+          : true
+        })} >
+           <Ionicons name='md-switch' size={28} color={'white'} style={{paddingHorizontal: 12}}/>
+        </TouchableOpacity>
+      </View>
+
+    )
+  }
+}
+
+const styles = StyleSheet.create({
+  searchbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 20,
+    backgroundColor: '#2B2B2B'
+  },
+  searchinput: {
+    flex: 1,
+    height: 30,
+    fontSize: 18,
+    fontFamily: 'os-reg',
+    color: 'white',
+    paddingHorizontal: 12,
+    marginVertical: 4,
+    backgroundColor: 'darkgrey',
+    borderRadius: 8
+  }
+})

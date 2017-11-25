@@ -11,7 +11,7 @@ export default class EventDetails extends React.Component {
   render() {
     return (
       <View>
-        <Text>Event details go here</Text>
+        <Text>{JSON.stringify(this.props.navigation, null, '\t')}</Text>
       </View>
     )
   }
