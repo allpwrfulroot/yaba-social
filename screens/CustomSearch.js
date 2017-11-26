@@ -18,8 +18,8 @@ import {
 import {
   Ionicons
 } from '@expo/vector-icons'
-import { withApollo, graphql, compose } from 'react-apollo'
-import { GetFilters, UpdateFilters } from '../apollo'
+// import { withApollo, graphql, compose } from 'react-apollo'
+// import { GetSearch, UpdateSearch } from '../apollo'
 
 import CustomTabsComponent from './components/CustomTabsComponent'
 import FirstTab from './FirstTab'
@@ -39,38 +39,14 @@ const CustomTabs = TabNavigator({
   tabBarPosition: 'top'
 })
 
-class CustomSearch extends React.Component {
+export default class CustomSearch extends React.Component {
   static router = CustomTabs.router
-
-  state = {
-    search: '',
-    filters: {}
-  }
-
-  _onSubmitSearch = async () => {
-    try {
-
-    } catch (err) {
-      Alert.alert('Oops', err)
-    }
-  }
 
   render() {
     let { data, navigation } = this.props
 
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        {/* <View style={styles.searchbar}>
-          <TextInput
-            returnKeyType='search'
-            onChangeText={(search) => this.setState({ search })}
-            placeholder='Search'
-            onSubmitEditing={this._onSubmitSearch}
-            value={this.state.search}
-            style={styles.searchinput}
-          />
-        </View> */}
-
         <CustomTabs navigation={navigation} />
 
         <Modal
@@ -125,8 +101,3 @@ const styles = StyleSheet.create({
     paddingTop: 6
   }
 })
-
-export default compose(
-  withApollo,
-  graphql(GetFilters)
-)(CustomSearch)

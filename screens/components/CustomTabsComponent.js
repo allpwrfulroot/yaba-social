@@ -11,8 +11,8 @@ export default class CustomTabsComponent extends React.PureComponent {
           <TouchableOpacity
             key={route.key}
             onPress={() => navigate(route.routeName)}
-            style={[styles.box, i === index && {backgroundColor: 'black'}]}>
-            <Text style={[styles.text, i === index && {color: 'white'}]}>
+            style={[styles.box, i === index && { backgroundColor: 'black' }]}>
+            <Text style={[styles.text, i === index && { color: 'white' }]}>
               { route.routeName.toUpperCase() }
             </Text>
           </TouchableOpacity>

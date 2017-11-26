@@ -28,50 +28,44 @@ const cache = new InMemoryCache({
 
 const localState = withClientState({
   Query: {
-    getFilters: () => ({
-      search: '',
-      categories: [],
-      tags: [],
-      __typename: 'SearchFilter'
+    getSearch: () => ({
+      search: 'Foo',
+      __typename: 'Search'
     }),
   },
   Mutation: {
-    updateFilters: (_, { search, categories, tags }, { cache }) => {
-      const data = {
-        search: search,
-        categories: categories,
-        tags: tags,
-        __typename: 'SearchFilter'
-      }
-      cache.writeQuery({ query, variables, data })
-      return null
+    updateSearch: (_, { search }, { cache }) => {
+      let current = client.readQuery({ query: GetSearch })
+      current.getSearch.search = search
+      // console.log(current)
+      cache.writeQuery({
+        query: GetSearch,
+        data: current
+      })
+      return search
     }
   },
 })
 
-export const GetFilters = gql`
-  query getFilters {
-    getFilters @client {
+export const GetSearch = gql`
+  query getSearch {
+    getSearch @client {
       search
-      categories
-      tags
     }
   }
 `
 
-export const UpdateFilters = gql`
-  mutation updateFilters(
+export const UpdateSearch = gql`
+  mutation updateSearch(
     $search: String,
-    $categories: [String!],
-    $tags: [String!]
   ){
-    updateFilters(
-      search: $message,
-      categories: $title,
-      tags: $tags
+    updateSearch(
+      search: $search,
     ) @client
   }
 `
+
+
 // const temp = localState.concat(httpLink)
 // const link = authLink.concat(temp)
 

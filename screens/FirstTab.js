@@ -4,10 +4,26 @@ import {
   FlatList
 } from 'react-native'
 import ChatListItem from './components/ChatListItem'
+import { withApollo, graphql, compose } from 'react-apollo'
+import { GetSearch, UpdateSearch } from '../apollo'
 
 import DATA from '../users.json'
 
-export default class FirstTab extends React.Component {
+class FirstTab extends React.Component {
+  state = {
+    people: DATA.results
+  }
+
+  componentWillReceiveProps = async (nextProps) => {
+    let filter = nextProps.data.getSearch.search.toLowerCase()
+    try {
+      let newData = DATA.results.filter(x => x.email.includes(filter))
+      this.setState({ people: newData })
+    } catch (e) {
+      console.log('Error: ', e)
+    }
+  }
+
   goToChat = person => {}
 
   goToProfile = person => {}
@@ -25,10 +41,14 @@ export default class FirstTab extends React.Component {
   render() {
     return (
       <FlatList
-        data={DATA.results}
+        data={this.state.people}
         renderItem={this._renderItem}
         keyExtractor={this._keyExtractor}
       />
     )
   }
 }
+
+export default compose(
+  graphql(GetSearch)
+)(FirstTab)
