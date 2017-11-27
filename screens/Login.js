@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 28,
     marginVertical: 12,
-    fontFamily: 'nemoy-light',
+    fontFamily: 'os-lite',
     color: 'white'
   },
   input: {
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'nemoy-medium',
+    fontFamily: 'os-reg',
     fontSize: 18
   },
   option: {

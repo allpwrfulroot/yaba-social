@@ -49,14 +49,14 @@ const styles = StyleSheet.create({
     elevation: 10
   },
   h2: {
-    fontWeight: "700",
+    fontFamily: 'os-reg',
     fontSize: 18,
     color: '#2B2B2B',
     margin: 4,
     paddingBottom: 12
   },
   p: {
-    fontWeight: "300",
+    fontFamily: 'os-lite',
     fontSize: 18,
     color: '#2B2B2B',
     margin: 4,

@@ -1,16 +1,13 @@
 import React from 'react'
 import {
-  ActivityIndicator,
   Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
+  View
 } from 'react-native'
 
-export default class EventDetails extends React.Component {
+export default class Lightbox extends React.Component {
   render() {
     return (
-      <View>
+      <View style={{ backgroundColor: 'transparent', margin: 25, shadowOpacity: 0 }}>
         <Text>{JSON.stringify(this.props.navigation, null, '\t')}</Text>
       </View>
     )

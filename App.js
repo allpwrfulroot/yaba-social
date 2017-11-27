@@ -3,8 +3,9 @@ import React from 'react'
 import { Platform, StatusBar, View } from 'react-native'
 
 // Really annoying warning, expect it'll go away with v19 or so
-console.ignoredYellowBox = ['Warning: checkPropTypes']
-
+// console.ignoredYellowBox = ['Warning: checkPropTypes']
+import { ApolloProvider } from 'react-apollo'
+import client from './apollo'
 import MainNav from './navigation'
 
 export default class App extends React.Component {
@@ -37,9 +38,10 @@ export default class App extends React.Component {
       require('./assets/icons/yaba_logo.png')
     ])
     const fontAssets = this.cacheFonts([
-      {'nemoy-bold': require('./assets/fonts/NemoyBold.otf')},
-      {'nemoy-medium': require('./assets/fonts/NemoyMedium.otf')},
-      {'nemoy-light': require('./assets/fonts/NemoyLight.otf')}
+      {'state': require('./assets/fonts/BenchNine-Regular.ttf')},
+      {'os-bold': require('./assets/fonts/OpenSans-Bold.ttf')},
+      {'os-reg': require('./assets/fonts/OpenSans-Regular.ttf')},
+      {'os-lite': require('./assets/fonts/OpenSans-Light.ttf')}
     ])
     await Promise.all([
       ...imageAssets,
@@ -53,11 +55,13 @@ export default class App extends React.Component {
       return <AppLoading />
     }
     return (
-      <View style={{flex: 1}}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-        {Platform.OS === 'android' && <View style={{ height: Constants.statusBarHeight, backgroundColor: 'rgba(0,0,0,0.2)' }} />}
-        <MainNav />
-      </View>
+      <ApolloProvider client={client}>
+        <View style={{flex: 1}}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+          {Platform.OS === 'android' && <View style={{ height: Constants.statusBarHeight, backgroundColor: 'rgba(0,0,0,0.2)' }} />}
+          <MainNav />
+        </View>
+      </ApolloProvider>
     )
   }
 }

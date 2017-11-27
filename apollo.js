@@ -1,58 +1,157 @@
-// With heavy inspiration from Scaphold.io and Graph.cool docs
-
 import { AsyncStorage } from 'react-native'
-import ApolloClient, { createBatchingNetworkInterface } from 'apollo-client'
-import {
-  SubscriptionClient,
-  addGraphQLSubscriptions
-} from 'subscriptions-transport-ws'
+// import config from './config'
 
-function makeApolloClient(graphcoollUrl, subscriptionUrl) {
-  const networkInterface = createBatchingNetworkInterface({uri: graphcoolUrl})
-  networkInterface.use([{
-    applyBatchMiddleware(req, next) {
-      if (!req.options.headers) {
-        req.options.headers = {}
+import { ApolloClient } from 'apollo-client'
+// import { createHttpLink } from 'apollo-link-http'
+// import { setContext } from 'apollo-link-context'
+// import { onError } from 'apollo-link-error'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { withClientState } from 'apollo-link-state'
+import gql from 'graphql-tag';
+
+import { PEOPLE } from './people'
+import { PLACES } from './places'
+
+const cache = new InMemoryCache({
+  dataIdFromObject: o => o.id
+});
+
+// const httpLink = createHttpLink({ uri: config.graphqlUrl })
+
+// const authLink = setContext(async (req, { headers }) => {
+//   const token = await AsyncStorage.getItem('Token')
+//   console.log('sanity token: ', token)
+//   return {
+//     ...headers,
+//     headers: {
+//       Authorization: token ? `Bearer ${token}` : null,
+//     },
+//   }
+// })
+
+const localState = withClientState({
+  Query: {
+    getSearch: () => ({
+      search: '',
+      __typename: 'Search'
+    }),
+    getPeople: () => ({
+      people: PEOPLE,
+      __typename: 'People'
+    }),
+    getPlaces: () => ({
+      places: PLACES,
+      __typename: 'Places'
+    }),
+    getResults: () => ({
+      peopleRes: 0,
+      placesRes: 0,
+      __typename: 'Results'
+    })
+  },
+  Mutation: {
+    updateSearch: (_, { search }, { cache }) => {
+      let currentSearch = client.readQuery({ query: GetSearch })
+      currentSearch.getSearch.search = search
+
+      let peopleList = client.readQuery({ query: GetPeople })
+      peopleList.getPeople.people = PEOPLE
+
+      let placesList = client.readQuery({ query: GetPlaces })
+      placesList.getPlaces.places = PLACES
+
+      let results = client.readQuery({ query: GetResults })
+
+      if(!!search) {
+        let filteredPeople = peopleList.getPeople.people.filter(x =>
+          x.firstName.toLowerCase().includes(search.toLowerCase())
+          || x.lastName.toLowerCase().includes(search.toLowerCase())
+        )
+        peopleList.getPeople.people = filteredPeople
+        let n = filteredPeople.length
+        results.getResults.peopleRes = n > 0 && n <= 10 && n
+        let filteredPlaces = placesList.getPlaces.places.filter(x =>
+          x.name.toLowerCase().includes(search.toLowerCase())
+          || x.location.toLowerCase().includes(search.toLowerCase())
+        )
+        placesList.getPlaces.places = filteredPlaces
+        let m = filteredPlaces.length
+        results.getResults.placesRes = m > 0 && m <= 10 && m
+      } else {
+        results.getResults = { peopleRes: 0, placesRes: 0, __typename: 'Results' }
       }
-      //////////////////////////////////////////////////////////////////////
-      // For rapid development, often easiest to manually log in a user on
-      // the backend and hard-code the resulting token here:
-      //////////////////////////////////////////////////////////////////////
-      req.options.headers.Authorization = 'Bearer pasteTokenHere'
-      next()
 
-      //////////////////////////////////////////////////////////////////////
-      // In reality, you store the token in AsyncStorage at login and use here:
-      //////////////////////////////////////////////////////////////////////
-      // AsyncStorage.getItem('Token')
-      // .then(token => {
-      //   if (token !== null) {
-      //     req.options.headers.Authorization = `Bearer ${token}`
-      //   } else {
-      //     console.log('No token!')
-      //   }
-      //   next()
-      // })
-      // .catch(err => {console.log('error in mAC AsyncStorage: ', err)})
-      // .done()
+      cache.writeQuery({
+        query: GetSearch,
+        data: currentSearch
+      })
+      cache.writeQuery({
+        query: GetPeople,
+        data: peopleList
+      })
+      cache.writeQuery({
+        query: GetPlaces,
+        data: placesList
+      })
+      cache.writeQuery({
+        query: GetResults,
+        data: results
+      })
+      return search
     }
-  }])
+  },
+})
 
-  const wsClient = new SubscriptionClient(subscriptionUrl, {
-    reconnect: true
-  })
+export const GetSearch = gql`
+  query getSearch {
+    getSearch @client {
+      search
+    }
+  }
+`
 
-  const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-    networkInterface,
-    wsClient
-  )
-  const clientGraphql = new ApolloClient({
-    networkInterface: networkInterfaceWithSubscriptions,
-    dataIdFromObject: o => o.id,
-    initialState: {},
-    batchInterval: 20
-  })
-  return clientGraphql
-}
+export const GetPeople = gql`
+  query getPeople {
+    getPeople @client {
+      people
+    }
+  }
+`
 
-export default makeApolloClient
+export const GetPlaces = gql`
+  query getPlaces {
+    getPlaces @client {
+      places
+    }
+  }
+`
+
+export const GetResults = gql`
+  query getResults {
+    getResults @client {
+      peopleRes
+      placesRes
+    }
+  }
+`
+
+export const UpdateSearch = gql`
+  mutation updateSearch(
+    $search: String,
+  ){
+    updateSearch(
+      search: $search,
+    ) @client
+  }
+`
+
+
+// const temp = localState.concat(httpLink)
+// const link = authLink.concat(temp)
+
+const client = new ApolloClient({
+  link: localState,
+  cache: cache
+})
+
+export default client
