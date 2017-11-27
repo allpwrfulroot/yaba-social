@@ -30,14 +30,10 @@ import ChatsPage from './screens/ChatsPage'
 import Chat from './screens/Chat'
 import Profile from './screens/Profile'
 import EventsPage from './screens/EventsPage'
-import EventDetails from './screens/EventDetails'
-import EventMessages from './screens/EventMessages'
-import EventOther from './screens/EventOther'
 import EventsFilter from './screens/EventsFilter'
 import CustomSearch from './screens/CustomSearch'
 import MyProfile from './screens/MyProfile'
 import TopFilter from './screens/TopFilter'
-import Lightbox from './screens/Lightbox'
 
 const defaultTabs = {
   labelStyle: {
@@ -91,6 +87,7 @@ const EventsWithFilterStack = StackNavigator({
   EventsFilter: {
     screen: EventsFilter,
     navigationOptions: ({ navigation }) => ({
+      title: 'foo',
       headerRight: (
         <TouchableOpacity onPress={() => navigation.goBack()} >
           <Ionicons name='md-close' size={28} color={'white'} style={{paddingRight: 12}}/>
@@ -129,34 +126,6 @@ const HomeTabs = TabNavigator({
   }
 })
 
-const EventTabs = TabNavigator({
-  EventDetails: {
-    screen: EventDetails,
-    navigationOptions: {
-      tabBarLabel: 'Details'
-    }
-  },
-  EventMessages: {
-    screen: EventMessages,
-    navigationOptions: {
-      tabBarLabel: 'Messages'
-    }
-  },
-  EventOther: {
-    screen: EventOther,
-    navigationOptions: {
-      tabBarLabel: 'Other'
-    }
-  }
-},
-{
-  tabBarComponent: TabBarTop,
-  tabBarPosition: 'top',
-  tabBarOptions: {
-    ...defaultTabs
-  }
-})
-
 const HomeStackSummary = StackNavigator({
   SummaryStack: {
     screen: HomeTabs,
@@ -180,12 +149,6 @@ const HomeStackSummary = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.person.firstName} ${navigation.state.params.person.lastName}`
     })
-  },
-  EventTabs: {
-    screen: EventTabs,
-    navigationOptions: ({ navigation }) => ({
-      title: `${navigation.state.params.event.title}`
-    })
   }
 },{
   headerMode: 'screen',
@@ -203,8 +166,6 @@ const CustomSearchStack = StackNavigator({
     })
   }
 },{
-  // mode: 'modal',
-  // headerMode: 'screen',
   navigationOptions: {
     ...defaultHeader
   }
@@ -275,7 +236,7 @@ const DrawerNavigation = DrawerNavigator({
   }
 },
 {
-  initialRouteName: 'CustomSearch',
+  initialRouteName: 'Home',
   contentComponent: ({ navigation }) =>
     <View style={styles.drawer}>
       <View style={{flex: 1}}>
@@ -315,12 +276,6 @@ const DrawerNavigation = DrawerNavigator({
             style={[styles.drawerItem, navigation.state.index === 1 ? {backgroundColor: 'black'} : null]}>
             <Text style={styles.drawerText}>Custom search</Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            onPress={() => navigation.state.index === 2 ? navigation.navigate('DrawerClose') : navigation.navigate('BottomTabs')}
-            style={[styles.drawerItem, navigation.state.index === 2 ? {backgroundColor: 'black'} : null]}>
-            <Text style={styles.drawerText}>Bottom Tabs</Text>
-          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={() => navigation.state.index === 3 ? navigation.navigate('DrawerClose') : navigation.navigate('MyProfile')}

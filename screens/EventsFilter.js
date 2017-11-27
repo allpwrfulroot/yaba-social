@@ -13,7 +13,9 @@ export default class EventsFilter extends React.Component {
   render() {
     return (
       <View>
-        <Text>Event filtering options go here</Text>
+        <Text style={{ padding: 8 }}>
+          {JSON.stringify(this.props.navigation, null, '  ')}
+        </Text>
       </View>
     )
   }

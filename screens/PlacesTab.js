@@ -4,20 +4,20 @@ import {
   Text,
   FlatList
 } from 'react-native'
-// import PeopleListItem from './components/PeopleListItem'
+import PlacesListItem from './components/PlacesListItem'
 import { graphql, compose } from 'react-apollo'
-import { GetPlaces, GetSearch } from '../apollo'
+import { GetPlaces, GetFilters } from '../apollo'
 
 class PlacesTab extends React.Component {
   _keyExtractor = (item, index) => item.id
 
-  _renderItem = ({ item }) => (
-    <Text>{item.name}</Text>
-  )
+  _renderItem = ({ item }) => <PlacesListItem place={item} />
+
+  _separator = () => <View style={{ height: 1, backgroundColor: 'gray' }} />
 
   render() {
     let { error, loading, getPlaces } = this.props.places
-    let { getSearch } = this.props.searchTerm
+    let { getFilters } = this.props.filters
 
     if(loading) {
       return (
@@ -32,10 +32,11 @@ class PlacesTab extends React.Component {
             data={getPlaces.places}
             renderItem={this._renderItem}
             keyExtractor={this._keyExtractor}
+            ItemSeparatorComponent={this._separator}
           />
         : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           {
-            !!getSearch.search
+            !!getFilters.search
             ? <Text>No matches for that search!</Text>
             : <Text>No places found! Womp womp</Text>
           }
@@ -56,7 +57,7 @@ export default compose(
   graphql(GetPlaces, {
     name: 'places'
   }),
-  graphql(GetSearch, {
-    name: 'searchTerm'
+  graphql(GetFilters, {
+    name: 'filters'
   })
 )(PlacesTab)

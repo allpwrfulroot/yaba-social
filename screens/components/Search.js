@@ -7,27 +7,24 @@ import { View,
   TouchableOpacity
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { withApollo, graphql, compose } from 'react-apollo'
-import { GetSearch, GetResults, UpdateSearch } from '../../apollo'
+import { graphql, compose } from 'react-apollo'
+import { GetFilters, GetResults, UpdateFilters } from '../../apollo'
 
 class Search extends Component {
   state = {
     search: ''
   }
 
-  componentWillMount = async () => {
-    const initial = await this.props.client.query({ query: GetSearch })
-    const initiate = await this.props.client.query({ query: GetResults })
-    this.setState({ search: initial.data.getSearch.search })
-  }
-
   _onSubmitSearch = async () => {
     try {
-      const updated = await this.props.client.mutate({
-        mutation: UpdateSearch,
-        variables: { search: this.state.search }
+      const updated = await this.props.mutate({
+        query: UpdateFilters,
+        variables: {
+          search: this.state.search,
+          filters: this.props.data.getFilters.filters
+        }
       })
-      // console.log(updated)
+      console.log(updated)
     } catch (err) {
       Alert.alert('Oops', err)
     }
@@ -85,5 +82,6 @@ const styles = StyleSheet.create({
 })
 
 export default compose(
-  withApollo
+  graphql(GetFilters),
+  graphql(UpdateFilters)
 )(Search)

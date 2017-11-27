@@ -1,3 +1,6 @@
+// THIS SETUP WILL ONLY HANDLE LOCAL STATE.
+// TO HOOK UP A GRAPHQL BACKEND, UNCOMMENT THE THINGS AND ADD CONFIG FILE!!
+
 import { AsyncStorage } from 'react-native'
 // import config from './config'
 
@@ -31,9 +34,10 @@ const cache = new InMemoryCache({
 
 const localState = withClientState({
   Query: {
-    getSearch: () => ({
+    getFilters: () => ({
       search: '',
-      __typename: 'Search'
+      filters: [],
+      __typename: 'Filters'
     }),
     getPeople: () => ({
       people: PEOPLE,
@@ -50,9 +54,13 @@ const localState = withClientState({
     })
   },
   Mutation: {
-    updateSearch: (_, { search }, { cache }) => {
-      let currentSearch = client.readQuery({ query: GetSearch })
-      currentSearch.getSearch.search = search
+    updateFilters: (_, { search, filters }, { cache }) => {
+      let currentFilters = client.readQuery({ query: GetFilters })
+      currentFilters.getFilters = {
+        search: search,
+        filters: filters,
+        __typename: 'Filters'
+      }
 
       let peopleList = client.readQuery({ query: GetPeople })
       peopleList.getPeople.people = PEOPLE
@@ -62,28 +70,57 @@ const localState = withClientState({
 
       let results = client.readQuery({ query: GetResults })
 
-      if(!!search) {
+      // BOTH SEARCH TERM AND FILTER OPTIONS PROVIDED
+      if(!!search && filters.length > 0) {
+        let filteredPeople = peopleList.getPeople.people.filter(x =>
+          ( x.firstName.toLowerCase().includes(search.toLowerCase())
+          || x.lastName.toLowerCase().includes(search.toLowerCase()) )
+          && filters.includes(x.team)
+        )
+        peopleList.getPeople.people = filteredPeople
+        results.getResults.peopleRes = filteredPeople.length
+        let filteredPlaces = placesList.getPlaces.places.filter(x =>
+          ( x.name.toLowerCase().includes(search.toLowerCase())
+          || x.location.toLowerCase().includes(search.toLowerCase()) )
+          && filters.includes(x.color)
+        )
+        placesList.getPlaces.places = filteredPlaces
+        results.getResults.placesRes = filteredPlaces.length
+      // ONLY SEARCH TERM PROVIDED
+      } else if(!!search) {
         let filteredPeople = peopleList.getPeople.people.filter(x =>
           x.firstName.toLowerCase().includes(search.toLowerCase())
           || x.lastName.toLowerCase().includes(search.toLowerCase())
         )
         peopleList.getPeople.people = filteredPeople
-        let n = filteredPeople.length
-        results.getResults.peopleRes = n > 0 && n <= 10 && n
+        results.getResults.peopleRes = filteredPeople.length
         let filteredPlaces = placesList.getPlaces.places.filter(x =>
           x.name.toLowerCase().includes(search.toLowerCase())
           || x.location.toLowerCase().includes(search.toLowerCase())
         )
         placesList.getPlaces.places = filteredPlaces
-        let m = filteredPlaces.length
-        results.getResults.placesRes = m > 0 && m <= 10 && m
+        results.getResults.placesRes = filteredPlaces.length
+      // ONLY FILTER OPTIONS PROVIDED
+      } else if(filters.length > 0) {
+        let filteredPeople = peopleList.getPeople.people.filter(x =>
+          filters.includes(x.team)
+        )
+        peopleList.getPeople.people = filteredPeople
+        results.getResults.peopleRes = filteredPeople.length
+        let filteredPlaces = placesList.getPlaces.places.filter(x =>
+          filters.includes(x.color)
+        )
+        placesList.getPlaces.places = filteredPlaces
+        results.getResults.placesRes = filteredPlaces.length
+      // NO SEARCH OR FILTER OPTIONS; RESETTING TO ORIGINAL DATA.
+      // PEOPLE AND PLACES SHOULD NO LONGER SHOW (num) IN THE TABS
       } else {
         results.getResults = { peopleRes: 0, placesRes: 0, __typename: 'Results' }
       }
 
       cache.writeQuery({
-        query: GetSearch,
-        data: currentSearch
+        query: GetFilters,
+        data: currentFilters
       })
       cache.writeQuery({
         query: GetPeople,
@@ -97,18 +134,10 @@ const localState = withClientState({
         query: GetResults,
         data: results
       })
-      return search
+      return null
     }
   },
 })
-
-export const GetSearch = gql`
-  query getSearch {
-    getSearch @client {
-      search
-    }
-  }
-`
 
 export const GetPeople = gql`
   query getPeople {
@@ -126,6 +155,15 @@ export const GetPlaces = gql`
   }
 `
 
+export const GetFilters = gql`
+  query getFilters {
+    getFilters @client {
+      search
+      filters
+    }
+  }
+`
+
 export const GetResults = gql`
   query getResults {
     getResults @client {
@@ -135,21 +173,23 @@ export const GetResults = gql`
   }
 `
 
-export const UpdateSearch = gql`
-  mutation updateSearch(
+export const UpdateFilters = gql`
+  mutation updateFilters(
     $search: String,
+    $filters: [String]
   ){
-    updateSearch(
+    updateFilters(
       search: $search,
+      filters: $filters
     ) @client
   }
 `
 
-
-// const temp = localState.concat(httpLink)
-// const link = authLink.concat(temp)
+// const connected = localState.concat(httpLink)
+// const link = authLink.concat(connected)
 
 const client = new ApolloClient({
+  // ADDING A BACKEND? UPDATE TO link: link
   link: localState,
   cache: cache
 })
