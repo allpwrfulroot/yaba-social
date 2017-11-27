@@ -13,26 +13,25 @@ import { BlurView } from 'expo'
 import {
   StackNavigator,
   TabNavigator,
-  TabBarTop
+  TabBarTop,
+  NavigationActions
 } from 'react-navigation'
 import {
   Ionicons
 } from '@expo/vector-icons'
-// import { withApollo, graphql, compose } from 'react-apollo'
-// import { GetSearch, UpdateSearch } from '../apollo'
 
 import CustomTabsComponent from './components/CustomTabsComponent'
-import FirstTab from './FirstTab'
-import SecondTab from './SecondTab'
+import PeopleTab from './PeopleTab'
+import PlacesTab from './PlacesTab'
 
 const { height, width } = Dimensions.get('window')
 
 const CustomTabs = TabNavigator({
   People: {
-    screen: FirstTab,
+    screen: PeopleTab
   },
   Places: {
-    screen: SecondTab,
+    screen: PlacesTab
   }
 },{
   tabBarComponent: CustomTabsComponent,
@@ -58,7 +57,7 @@ export default class CustomSearch extends React.Component {
             : false}>
             <BlurView
               tint="dark"
-              intensity={80}
+              intensity={90}
               style={{ flex: 1 }}>
               <View style={{ flex: 1, margin: 30, marginTop: 60, backgroundColor: 'white' }}>
                 <TouchableOpacity

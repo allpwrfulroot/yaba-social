@@ -8,15 +8,16 @@ import { View,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { withApollo, graphql, compose } from 'react-apollo'
-import { GetSearch, UpdateSearch } from '../../apollo'
+import { GetSearch, GetResults, UpdateSearch } from '../../apollo'
 
 class Search extends Component {
   state = {
     search: ''
   }
 
-  componentDidMount = async () => {
+  componentWillMount = async () => {
     const initial = await this.props.client.query({ query: GetSearch })
+    const initiate = await this.props.client.query({ query: GetResults })
     this.setState({ search: initial.data.getSearch.search })
   }
 

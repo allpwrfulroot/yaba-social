@@ -1,22 +1,29 @@
 import * as React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { graphql, compose } from 'react-apollo'
+import { GetResults } from '../../apollo'
 
-export default class CustomTabsComponent extends React.PureComponent {
+class CustomTabsComponent extends React.PureComponent {
   render () {
-    const { navigate, state: {routes, index} } = this.props.navigation
+    const { navigate, state: { routes, index }} = this.props.navigation
+    const { data } = this.props
 
     return (
       <View style={{ flexDirection: 'row' }}>
-        { routes.map( (route, i) =>
-          <TouchableOpacity
-            key={route.key}
-            onPress={() => navigate(route.routeName)}
-            style={[styles.box, i === index && { backgroundColor: 'black' }]}>
-            <Text style={[styles.text, i === index && { color: 'white' }]}>
-              { route.routeName.toUpperCase() }
-            </Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          onPress={() => navigate('People')}
+          style={[styles.box, 0 === index && { backgroundColor: 'black' }]}>
+          <Text style={[styles.text, 0 === index && { color: 'white' }]}>
+            PEOPLE {!!data.getResults && !!data.getResults.peopleRes && `(${data.getResults.peopleRes})` }
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('Places')}
+          style={[styles.box, 1 === index && { backgroundColor: 'black' }]}>
+          <Text style={[styles.text, 1 === index && { color: 'white' }]}>
+            PLACES {!!data.getResults && !!data.getResults.placesRes && `(${data.getResults.placesRes})` }
+          </Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -38,3 +45,7 @@ const styles = StyleSheet.create({
     fontFamily: 'os-bold'
   },
 })
+
+export default compose(
+  graphql(GetResults)
+)(CustomTabsComponent)

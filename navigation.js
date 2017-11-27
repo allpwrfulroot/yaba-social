@@ -35,9 +35,6 @@ import EventMessages from './screens/EventMessages'
 import EventOther from './screens/EventOther'
 import EventsFilter from './screens/EventsFilter'
 import CustomSearch from './screens/CustomSearch'
-import FirstTab from './screens/FirstTab'
-import SecondTab from './screens/SecondTab'
-import ThirdTab from './screens/ThirdTab'
 import MyProfile from './screens/MyProfile'
 import TopFilter from './screens/TopFilter'
 import Lightbox from './screens/Lightbox'
@@ -202,61 +199,12 @@ const CustomSearchStack = StackNavigator({
   CustomSearch: {
     screen: CustomSearch,
     navigationOptions: ({ navigation }) => ({
-      header: <Search navigation={navigation}/>,
-      // headerLeft: (
-      //   <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
-      //     <Ionicons name='md-menu' size={28} color={'white'} style={{paddingLeft: 12}}/>
-      //   </TouchableOpacity>
-      // )
-    })
-  },
-  Modal: {
-    screen: Lightbox,
-    navigationOptions: {
-      header: null
-    }
-  }
-},{
-  mode: 'modal',
-  headerMode: 'screen',
-  navigationOptions: {
-    ...defaultHeader
-  }
-})
-
-const BottomTabs = TabNavigator({
-  FirstTab: {
-    screen: FirstTab
-  },
-  SecondTab: {
-    screen: SecondTab,
-  },
-  ThirdTab: {
-    screen: ThirdTab
-  }
-},
-{
-  tabBarComponent: TabBarBottom,
-  tabBarPosition: 'bottom',
-  tabBarOptions: {
-    ...defaultTabs
-  }
-})
-
-const BottomTabsStack = StackNavigator({
-  BottomTabsLanding: {
-    screen: BottomTabs,
-    navigationOptions: ({ navigation }) => ({
-      title: 'BOTTOM TABS',
-      headerLeft: (
-        <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')} >
-          <Ionicons name='md-menu' size={28} color={'white'} style={{paddingLeft: 12}}/>
-        </TouchableOpacity>
-      )
+      header: <Search navigation={navigation}/>
     })
   }
 },{
-  headerMode: 'screen',
+  // mode: 'modal',
+  // headerMode: 'screen',
   navigationOptions: {
     ...defaultHeader
   }
@@ -322,9 +270,6 @@ const DrawerNavigation = DrawerNavigator({
   CustomSearch: {
     screen: CustomSearchStack,
   },
-  // BottomTabs: {
-  //   screen: BottomTabsStack,
-  // },
   MyProfile: {
     screen: MyProfileStack,
   }
