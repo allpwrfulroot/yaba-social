@@ -16,7 +16,7 @@ export default function PeopleListItem({ person }) {
     <View style={styles.card}>
       <Image source={{ uri: person.img }} style={styles.img} />
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Text style={styles.h2}>{person.firstName} {person.lastName}</Text>
+        <Text style={styles.h2}>{person.firstName} {person.lastName} ({person.team})</Text>
       </View>
     </View>
   )

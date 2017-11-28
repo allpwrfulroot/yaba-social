@@ -8,7 +8,7 @@ export default class Chat extends React.Component {
   render() {
     return (
       <View>
-        <Text>{JSON.stringify(this.props.navigation, null, '\t')}</Text>
+        <Text>{JSON.stringify(this.props.navigation, null, '  ')}</Text>
       </View>
     )
   }

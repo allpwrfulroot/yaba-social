@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import PeopleListItem from './components/PeopleListItem'
 import { graphql, compose } from 'react-apollo'
-import { GetPeople, GetSearch } from '../apollo'
+import { GetPeople, GetFilters } from '../apollo'
 
 class PeopleTab extends React.Component {
   goToChat = person => {}
@@ -21,7 +21,7 @@ class PeopleTab extends React.Component {
 
   render() {
     let { error, loading, getPeople } = this.props.people
-    let { getSearch } = this.props.searchTerm
+    let { getFilters } = this.props.filters
 
     if(loading) {
       return (
@@ -39,7 +39,7 @@ class PeopleTab extends React.Component {
           />
         : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           {
-            !!getSearch.search
+            !!getFilters.search
             ? <Text>No matches for that search!</Text>
             : <Text>No people found! Womp womp</Text>
           }
@@ -60,7 +60,7 @@ export default compose(
   graphql(GetPeople, {
     name: 'people'
   }),
-  graphql(GetSearch, {
-    name: 'searchTerm'
+  graphql(GetFilters, {
+    name: 'filters'
   })
 )(PeopleTab)

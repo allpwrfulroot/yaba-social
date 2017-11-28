@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "YABA",
-    "description": "Demo chat app with crazy react-navigation, Apollo+Graph.cool, a smidge of Redux for no real reason, and login/signup/profile. github.com/allpwrfulroot/yaba-social",
+    "description": "Demo chat app with crazy react-navigation, Apollo+Graph.cool, Apollo Client state management, and login/signup/profile. github.com/allpwrfulroot/yaba-social",
     "slug": "yaba-social",
     "privacy": "public",
     "sdkVersion": "23.0.0",
