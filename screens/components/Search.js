@@ -15,6 +15,12 @@ class Search extends Component {
     search: ''
   }
 
+  componentWillReceiveProps = async (nextProps) => {
+    if(!!nextProps.data.getFilters && !!nextProps.data.getFilters.search) {
+      this.setState({ search: nextProps.data.getFilters.search })
+    }
+  }
+
   _onSubmitSearch = async () => {
     try {
       const updated = await this.props.mutate({
@@ -39,10 +45,13 @@ class Search extends Component {
         </TouchableOpacity>
 
         <TextInput
+          autoCapitalize='none'
+          autoCorrect={false}
           returnKeyType='search'
           onChangeText={(search) => this.setState({ search })}
           placeholder='Search'
           placeholderTextColor='lightgrey'
+          underlineColorAndroid='transparent'
           onSubmitEditing={this._onSubmitSearch}
           value={this.state.search}
           style={styles.searchinput}
@@ -75,7 +84,7 @@ const styles = StyleSheet.create({
     fontFamily: 'os-reg',
     color: 'white',
     paddingHorizontal: 12,
-    marginVertical: 4,
+    marginVertical: 6,
     backgroundColor: 'darkgrey',
     borderRadius: 8
   }
