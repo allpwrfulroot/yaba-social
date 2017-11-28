@@ -20,7 +20,7 @@ Stack trickery: Nest stacks and tabs in interesting ways
 ![Events Tab Lo Modal](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/EventsTab_LoModal.png)  
 
 ### Custom Drawer  
-A common Drawer design: logo, scrolling list of options, and logout option floating at the bottom.  
+A common Drawer design: logo, scrolling list of options, and logout option floating at the bottom. Added the navigation state so you can quickly view the overall drawer and how it changes as you move through the app.  
 ![Drawer](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/Drawer.png)  
 
 ### Stack  
