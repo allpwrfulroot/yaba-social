@@ -15,7 +15,7 @@ Un-comment the additional code in `apollo.js` to hook up your GraphQL server of 
 
 ### Modals  
 Stack trickery: Nest stacks and tabs in interesting ways  
-![Events Tab](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/EventsTab.png)
+![Events Tab](/documentation/EventsTab.png)
 ![Events Tab Hi Modal](/documentation/EventsTab_HiModal.png)
 ![Events Tab Lo Modal](/documentation/EventsTab_LoModal.png)  
 
