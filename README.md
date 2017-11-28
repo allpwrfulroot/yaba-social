@@ -24,10 +24,10 @@ A common Drawer design: logo, scrolling list of options, and logout option float
 ![Drawer](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/Drawer.png)  
 
 ### Stack  
-Generic chat stack: navigates from a list of chats to either a Profile or Chat page. Chat page also shows passing of parameters through the navigation prop.
+Generic chat stack: navigates from a list of chats to either a Profile or Chat page. Chat page also shows passing of parameters through the navigation prop.  
 ![Chats List](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/ChatsTab.png)
 ![Profile](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/Profile.png)
-![Chat](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/Chat.png)
+![Chat](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/Chat.png)  
 
 ### Login + Signup  
 Generic login page + that can handle a keyboard during text input. Scaffolding for a new user signup sequence. Both reset the stack when navigating to the main App.  
