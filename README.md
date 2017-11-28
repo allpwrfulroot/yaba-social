@@ -8,7 +8,7 @@ Send questions, requests, etc. as Issues
 
 ### Custom Search + Filters, managing state thru Apollo  
 Building a common UI that's been challenging with `react-navigation`. No backend required, this data is entirely managed in global state by Apoll Client!   
-Un-comment the additional code in `apollo.js` to hook up your GraphQL server of choice; check out [Graph.cool](http://graph.cool) for a quick and easy setup.
+Un-comment the additional code in `apollo.js` to hook up your GraphQL server of choice; check out [Graph.cool](http://graph.cool) for a quick and easy setup.  
 ![Custom Search People Tab](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/CustomSearch_People.png)
 ![Custom Search Places Tab](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/CustomSearch_Places.png)
 ![Custom Search Filter Modal](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/CustomSearch_Filter.png)
@@ -25,7 +25,7 @@ A common Drawer design: logo, scrolling list of options, and logout option float
 
 ### Stack  
 Generic chat stack: navigates from a list of chats to either a Profile or Chat page. Chat page also shows passing of parameters through the navigation prop.
-![Chats List](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/ChatsTab.png]
+![Chats List](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/ChatsTab.png)
 ![Profile](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/Profile.png)
 ![Chat](https://github.com/allpwrfulroot/yaba-social/blob/update/documentation/Chat.png)
 
