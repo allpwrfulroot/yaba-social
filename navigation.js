@@ -236,7 +236,13 @@ const DrawerNavigation = DrawerNavigator({
   }
 },
 {
-  initialRouteName: 'Home',
+  initialRouteName: 'CustomSearch',
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle',
+  headerMode: 'none',
+  drawerWidth: 300,
+  drawerPosition: 'left',
   contentComponent: ({ navigation }) =>
     <View style={styles.drawer}>
       <View style={{flex: 1}}>

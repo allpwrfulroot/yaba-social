@@ -6,7 +6,7 @@ import { GetResults } from '../../apollo'
 class CustomTabsComponent extends React.PureComponent {
   render () {
     const { navigate, state: { routes, index }} = this.props.navigation
-    const { data } = this.props
+    const { peopleRes, placesRes } = this.props.results
 
     return (
       <View style={{ flexDirection: 'row' }}>
@@ -14,14 +14,14 @@ class CustomTabsComponent extends React.PureComponent {
           onPress={() => navigate('People')}
           style={[styles.box, 0 === index && { backgroundColor: 'black' }]}>
           <Text style={[styles.text, 0 === index && { color: 'white' }]}>
-            PEOPLE {!!data.getResults && !!data.getResults.peopleRes && `(${data.getResults.peopleRes})` }
+            PEOPLE {!!peopleRes && `(${peopleRes})` }
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigate('Places')}
           style={[styles.box, 1 === index && { backgroundColor: 'black' }]}>
           <Text style={[styles.text, 1 === index && { color: 'white' }]}>
-            PLACES {!!data.getResults && !!data.getResults.placesRes && `(${data.getResults.placesRes})` }
+            PLACES {!!placesRes && `(${placesRes})` }
           </Text>
         </TouchableOpacity>
       </View>
@@ -47,5 +47,11 @@ const styles = StyleSheet.create({
 })
 
 export default compose(
-  graphql(GetResults)
+  graphql(GetResults, {
+    props: ({ data }) => ({
+      results: !!data.getResults
+      ? data.getResults
+      : { peopleRes: 0, placesRes: 0 }
+    })
+  })
 )(CustomTabsComponent)
