@@ -8,7 +8,7 @@ import { View,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { graphql, compose } from 'react-apollo'
-import { GetFilters, GetResults, UpdateFilters } from '../../apollo'
+import { GetSearch, UpdateSearch } from '../../apollo'
 
 class Search extends Component {
   state = {
@@ -16,18 +16,17 @@ class Search extends Component {
   }
 
   componentWillReceiveProps = async (nextProps) => {
-    if(!!nextProps.data.getFilters && !!nextProps.data.getFilters.search) {
-      this.setState({ search: nextProps.data.getFilters.search })
+    if(!!nextProps.data.getSearch && !!nextProps.data.getSearch.search) {
+      this.setState({ search: nextProps.data.getSearch.search })
     }
   }
 
   _onSubmitSearch = async () => {
     try {
       const updated = await this.props.mutate({
-        query: UpdateFilters,
+        query: UpdateSearch,
         variables: {
-          search: this.state.search,
-          filters: this.props.data.getFilters.filters
+          search: this.state.search
         }
       })
       console.log(updated)
@@ -91,6 +90,6 @@ const styles = StyleSheet.create({
 })
 
 export default compose(
-  graphql(GetFilters),
-  graphql(UpdateFilters)
+  graphql(GetSearch),
+  graphql(UpdateSearch)
 )(Search)

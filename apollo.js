@@ -10,10 +10,7 @@ import { ApolloClient } from 'apollo-client'
 // import { onError } from 'apollo-link-error'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { withClientState } from 'apollo-link-state'
-import gql from 'graphql-tag';
-
-import { PEOPLE } from './people'
-import { PLACES } from './places'
+import gql from 'graphql-tag'
 
 const cache = new InMemoryCache({
   dataIdFromObject: o => o.id
@@ -23,7 +20,6 @@ const cache = new InMemoryCache({
 
 // const authLink = setContext(async (req, { headers }) => {
 //   const token = await AsyncStorage.getItem('Token')
-//   console.log('sanity token: ', token)
 //   return {
 //     ...headers,
 //     headers: {
@@ -32,134 +28,18 @@ const cache = new InMemoryCache({
 //   }
 // })
 
-const localState = withClientState({
-  Query: {
-    getFilters: () => ({
-      search: '',
-      filters: [],
-      __typename: 'Filters'
-    }),
-    getPeople: () => ({
-      people: PEOPLE,
-      __typename: 'People'
-    }),
-    getPlaces: () => ({
-      places: PLACES,
-      __typename: 'Places'
-    }),
-    getResults: () => ({
-      peopleRes: 0,
-      placesRes: 0,
-      __typename: 'Results'
-    })
-  },
-  Mutation: {
-    updateFilters: (_, { search, filters }, { cache }) => {
-      let currentFilters = client.readQuery({ query: GetFilters })
-      currentFilters.getFilters = {
-        search: search,
-        filters: filters,
-        __typename: 'Filters'
-      }
-
-      let peopleList = client.readQuery({ query: GetPeople })
-      peopleList.getPeople.people = PEOPLE
-
-      let placesList = client.readQuery({ query: GetPlaces })
-      placesList.getPlaces.places = PLACES
-
-      let results = client.readQuery({ query: GetResults })
-
-      // BOTH SEARCH TERM AND FILTER OPTIONS PROVIDED
-      if(!!search && filters.length > 0) {
-        let filteredPeople = peopleList.getPeople.people.filter(x =>
-          ( x.firstName.toLowerCase().includes(search.toLowerCase())
-          || x.lastName.toLowerCase().includes(search.toLowerCase()) )
-          && filters.includes(x.team)
-        )
-        peopleList.getPeople.people = filteredPeople
-        results.getResults.peopleRes = filteredPeople.length
-        let filteredPlaces = placesList.getPlaces.places.filter(x =>
-          ( x.name.toLowerCase().includes(search.toLowerCase())
-          || x.location.toLowerCase().includes(search.toLowerCase()) )
-          && filters.includes(x.color)
-        )
-        placesList.getPlaces.places = filteredPlaces
-        results.getResults.placesRes = filteredPlaces.length
-      // ONLY SEARCH TERM PROVIDED
-      } else if(!!search) {
-        let filteredPeople = peopleList.getPeople.people.filter(x =>
-          x.firstName.toLowerCase().includes(search.toLowerCase())
-          || x.lastName.toLowerCase().includes(search.toLowerCase())
-        )
-        peopleList.getPeople.people = filteredPeople
-        results.getResults.peopleRes = filteredPeople.length
-        let filteredPlaces = placesList.getPlaces.places.filter(x =>
-          x.name.toLowerCase().includes(search.toLowerCase())
-          || x.location.toLowerCase().includes(search.toLowerCase())
-        )
-        placesList.getPlaces.places = filteredPlaces
-        results.getResults.placesRes = filteredPlaces.length
-      // ONLY FILTER OPTIONS PROVIDED
-      } else if(filters.length > 0) {
-        let filteredPeople = peopleList.getPeople.people.filter(x =>
-          filters.includes(x.team)
-        )
-        peopleList.getPeople.people = filteredPeople
-        results.getResults.peopleRes = filteredPeople.length
-        let filteredPlaces = placesList.getPlaces.places.filter(x =>
-          filters.includes(x.color)
-        )
-        placesList.getPlaces.places = filteredPlaces
-        results.getResults.placesRes = filteredPlaces.length
-      // NO SEARCH OR FILTER OPTIONS; RESETTING TO ORIGINAL DATA.
-      // PEOPLE AND PLACES SHOULD NO LONGER SHOW (num) IN THE TABS
-      } else {
-        results.getResults = { peopleRes: 0, placesRes: 0, __typename: 'Results' }
-      }
-
-      cache.writeQuery({
-        query: GetFilters,
-        data: currentFilters
-      })
-      cache.writeQuery({
-        query: GetPeople,
-        data: peopleList
-      })
-      cache.writeQuery({
-        query: GetPlaces,
-        data: placesList
-      })
-      cache.writeQuery({
-        query: GetResults,
-        data: results
-      })
-      return null
-    }
-  },
-})
-
-export const GetPeople = gql`
-  query getPeople {
-    getPeople @client {
-      people
-    }
-  }
-`
-
-export const GetPlaces = gql`
-  query getPlaces {
-    getPlaces @client {
-      places
-    }
-  }
-`
-
 export const GetFilters = gql`
   query getFilters {
     getFilters @client {
-      search
       filters
+    }
+  }
+`
+
+export const GetSearch = gql`
+  query getSearch {
+    getSearch @client {
+      search
     }
   }
 `
@@ -175,15 +55,91 @@ export const GetResults = gql`
 
 export const UpdateFilters = gql`
   mutation updateFilters(
-    $search: String,
     $filters: [String]
   ){
     updateFilters(
-      search: $search,
       filters: $filters
     ) @client
   }
 `
+
+export const UpdateSearch = gql`
+  mutation updateSearch(
+    $search: String
+  ){
+    updateSearch(
+      search: $search
+    ) @client
+  }
+`
+
+export const UpdateResults = gql`
+  mutation updateResults(
+    $peopleRes: Int,
+    $placesRes: Int
+  ){
+    updateResults(
+      peopleRes: $peopleRes,
+      placesRes: $placesRes
+    ) @client
+  }
+`
+
+const localState = withClientState({
+  Query: {
+    getFilters: () => ({
+      filters: [],
+      __typename: 'Filters'
+    }),
+    getSearch: () => ({
+      search: '',
+      __typename: 'Search'
+    }),
+    getResults: () => ({
+      peopleRes: 0,
+      placesRes: 0,
+      __typename: 'Results'
+    })
+  },
+  Mutation: {
+    updateFilters: (_, { filters }, { cache }) => {
+      let currentFilters = client.readQuery({ query: GetFilters })
+      currentFilters.getFilters.filters = filters
+
+      cache.writeQuery({
+        query: GetFilters,
+        data: currentFilters
+      })
+      return null
+    },
+    updateSearch: (_, { search }, { cache }) => {
+      let currentSearch = client.readQuery({ query: GetSearch })
+      currentSearch.getSearch.search = search
+
+      cache.writeQuery({
+        query: GetSearch,
+        data: currentSearch
+      })
+      return null
+    },
+    updateResults: (_, { peopleRes, placesRes }, { cache }) => {
+      console.log('peopleRes: ', peopleRes)
+      console.log('placesRes: ', placesRes)
+      let currentResults = client.readQuery({ query: GetResults })
+      if(!!peopleRes) {
+        currentResults.getResults.peopleRes = peopleRes
+      }
+      if(!!placesRes) {
+        currentResults.getResults.placesRes = placesRes
+      }
+      cache.writeQuery({
+        query: GetResults,
+        data: currentResults
+      })
+      return null
+    }
+  }
+})
 
 // const connected = localState.concat(httpLink)
 // const link = authLink.concat(connected)
