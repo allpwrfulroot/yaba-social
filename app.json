@@ -4,18 +4,25 @@
     "description": "Demo chat app with crazy react-navigation, Apollo+Graph.cool, Apollo Client state management, and login/signup/profile. github.com/allpwrfulroot/yaba-social",
     "slug": "yaba-social",
     "privacy": "public",
-    "sdkVersion": "23.0.0",
-    "version": "0.0.2",
+    "sdkVersion": "32.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "0.0.3",
     "orientation": "portrait",
-    "primaryColor": "#cccccc",
     "icon": "./assets/icons/app.png",
-    "loading": {
-      "icon": "./assets/icons/loading.png",
-      "hideExponentText": true
+    "splash": {
+      "image": "./assets/icons/yaba_logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
-    "packagerOpts": {
-      "assetExts": ["otf", "ttf", "mp4"]
+    "updates": {
+      "fallbackToCacheTimeout": 0
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     }

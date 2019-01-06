@@ -20,20 +20,20 @@ import {
 import {
   Ionicons
 } from '@expo/vector-icons'
-import BubbleText from './screens/components/BubbleText'
-import Search from './screens/components/Search'
+// import BubbleText from './screens/components/BubbleText'
+// import Search from './screens/components/Search'
 
 import Login from './screens/Login'
-import SignupStart from './screens/SignupStart'
-import SignupFinish from './screens/SignupFinish'
-import ChatsPage from './screens/ChatsPage'
-import Chat from './screens/Chat'
-import Profile from './screens/Profile'
-import EventsPage from './screens/EventsPage'
-import EventsFilter from './screens/EventsFilter'
-import CustomSearch from './screens/CustomSearch'
-import MyProfile from './screens/MyProfile'
-import TopFilter from './screens/TopFilter'
+// import SignupStart from './screens/SignupStart'
+// import SignupFinish from './screens/SignupFinish'
+// import ChatsPage from './screens/ChatsPage'
+// import Chat from './screens/Chat'
+// import Profile from './screens/Profile'
+// import EventsPage from './screens/EventsPage'
+// import EventsFilter from './screens/EventsFilter'
+// import CustomSearch from './screens/CustomSearch'
+// import MyProfile from './screens/MyProfile'
+// import TopFilter from './screens/TopFilter'
 
 const defaultTabs = {
   labelStyle: {
@@ -345,70 +345,70 @@ const MainNavigation = StackNavigator({
   Login: {
     screen: Login
   },
-  Signup: {
-    screen: SignupStack
-  },
-  App: {
-    screen: WrappedApp
-  }
+  // Signup: {
+  //   screen: SignupStack
+  // },
+  // App: {
+  //   screen: WrappedApp
+  // }
 },{
   initialRouteName: 'App',
   headerMode: 'none',
 })
 
-const styles = StyleSheet.create({
-  searchinput: {
-    flex: 1,
-    height: 30,
-    fontSize: 18,
-    fontFamily: 'os-reg',
-    color: '#2B2B2B',
-    paddingHorizontal: 10,
-    paddingTop: 6
-  },
-  drawer: {
-    flex: 1,
-    justifyContent: 'space-between',
-    backgroundColor: 'darkgray',
-  },
-  drawerItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 18,
-    borderBottomColor: 'rgba(0,0,0,.1)',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  drawerText: {
-    color: '#fff',
-    fontSize: 18,
-    fontFamily: 'state',
-    padding: 14
-  },
-  header: {
-    paddingTop: 20,
-    paddingBottom: 5,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    shadowColor: '#21292b',
-    shadowOffset: { width: -2, height: 2 },
-    shadowRadius: 2,
-    shadowOpacity: .7,
-    marginBottom: 8,
-    elevation: 10
-  },
-  logo: {
-    height: 60,
-    width: 200,
-    alignSelf: 'center',
-    marginVertical: 10,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  }
-})
+// const styles = StyleSheet.create({
+//   searchinput: {
+//     flex: 1,
+//     height: 30,
+//     fontSize: 18,
+//     fontFamily: 'os-reg',
+//     color: '#2B2B2B',
+//     paddingHorizontal: 10,
+//     paddingTop: 6
+//   },
+//   drawer: {
+//     flex: 1,
+//     justifyContent: 'space-between',
+//     backgroundColor: 'darkgray',
+//   },
+//   drawerItem: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     paddingHorizontal: 18,
+//     borderBottomColor: 'rgba(0,0,0,.1)',
+//     borderBottomWidth: StyleSheet.hairlineWidth,
+//   },
+//   drawerText: {
+//     color: '#fff',
+//     fontSize: 18,
+//     fontFamily: 'state',
+//     padding: 14
+//   },
+//   header: {
+//     paddingTop: 20,
+//     paddingBottom: 5,
+//     backgroundColor: 'black',
+//     justifyContent: 'center',
+//     shadowColor: '#21292b',
+//     shadowOffset: { width: -2, height: 2 },
+//     shadowRadius: 2,
+//     shadowOpacity: .7,
+//     marginBottom: 8,
+//     elevation: 10
+//   },
+//   logo: {
+//     height: 60,
+//     width: 200,
+//     alignSelf: 'center',
+//     marginVertical: 10,
+//   },
+//   footer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     paddingHorizontal: 20,
+//   }
+// })
 
 export default MainNavigation

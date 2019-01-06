@@ -1,0 +1,11 @@
+query BlogPosts {
+  blogPosts {
+    id
+    createdAt
+    updatedAt
+    title
+    abstract
+    content
+    tags
+  }
+}
