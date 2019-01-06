@@ -1,7 +1,6 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
-import { FontAwesome } from '@expo/vector-icons'
 
 export default styled.TouchableOpacity`
   padding: 16px;

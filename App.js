@@ -4,9 +4,8 @@ import { Platform, StatusBar, View } from 'react-native'
 import { ThemeProvider } from 'styled-components'
 import { ApolloProvider } from 'react-apollo'
 
-import client from './utils/apollo'
-import theme from './utils/theme'
-import AppNav from './navigation/AppNav'
+import { client, theme } from './utils'
+import AppNav from './navigation'
 
 export default class App extends React.Component {
   state = {
@@ -38,7 +37,6 @@ export default class App extends React.Component {
       require('./assets/icons/yaba_logo.png'),
     ])
     const fontAssets = this.cacheFonts([
-      { state: require('./assets/fonts/BenchNine-Regular.ttf') },
       { 'os-bold': require('./assets/fonts/OpenSans-Bold.ttf') },
       { 'os-reg': require('./assets/fonts/OpenSans-Regular.ttf') },
       { 'os-lite': require('./assets/fonts/OpenSans-Light.ttf') },

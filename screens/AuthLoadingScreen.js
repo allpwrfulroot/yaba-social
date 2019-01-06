@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, AsyncStorage, Text } from 'react-native'
-import Jumbotron from '../components/Jumbotron'
+import { Jumbotron } from '../components'
 
 export default class AuthLoadingScreen extends React.Component {
   componentDidMount = async () => {

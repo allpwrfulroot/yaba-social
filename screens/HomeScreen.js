@@ -4,8 +4,7 @@ import { Button, Text, FlatList, View } from 'react-native'
 import { parse, distanceInWords } from 'date-fns'
 
 import AllPosts from '../graphql/blog-posts.gql'
-import StatusMessage from '../components/StatusMessage'
-import PostListItem from '../components/PostListItem'
+import { PostListItem, StatusMessage } from '../components'
 
 export default class HomeScreen extends Component {
   state = {

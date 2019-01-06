@@ -1,6 +1,5 @@
 export { default as AuthLoadingScreen } from './AuthLoadingScreen'
 export { default as HomeScreen } from './HomeScreen'
-export { default as MyProfile } from './MyProfile'
 export { default as SignInScreen } from './SignInScreen'
 export { default as PostScreen } from './PostScreen'
 export { default as TabOneScreen } from './TabOneScreen'

@@ -9,7 +9,7 @@ export default class TabTwoScreen extends Component {
   render() {
     return (
       <Jumbotron>
-        <JumboTitle>First Tab</JumboTitle>
+        <JumboTitle>Second Tab</JumboTitle>
       </Jumbotron>
     )
   }
