@@ -1,9 +1,9 @@
-query AllPosts($count: Int) {
-  allPosts(count: $count) {
+query Post($id: ID!) {
+  Post(id: $id) {
     id
-    body
     createdAt
     title
+    body
     author {
       id
       firstName

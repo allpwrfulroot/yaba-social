@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "apollo-boost": "^0.1.23",
+    "date-fns": "^1.30.1",
     "expo": "^31.0.4",
     "graphql": "^14.0.2",
     "react": "16.5.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "babel-plugin-import-graphql": "^2.6.2",
     "babel-preset-expo": "^5.0.0",
-    "prettier": "^1.15.3"
+    "prettier": "^1.15.3",
+    "react-native-dotenv": "^0.2.0"
   }
 }
