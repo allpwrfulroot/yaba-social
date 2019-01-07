@@ -1,22 +1,22 @@
 import Expo, { AppLoading, Asset, Font, Constants } from 'expo'
 import React from 'react'
 import { Platform, StatusBar, View } from 'react-native'
+import { ThemeProvider } from 'styled-components'
+import { ApolloProvider } from 'react-apollo'
 
-// Really annoying warning, expect it'll go away with v19 or so
-console.ignoredYellowBox = ['Warning: checkPropTypes']
-
-import MainNav from './navigation'
+import { client, theme } from './utils'
+import AppNav from './navigation'
 
 export default class App extends React.Component {
   state = {
-    isLoading: true
+    isLoading: true,
   }
 
   componentWillMount() {
     this._loadAssetsAsync()
   }
 
-  cacheImages = (images) => {
+  cacheImages = images => {
     return images.map(image => {
       if (typeof image === 'string') {
         return Image.prefetch(image)
@@ -26,7 +26,7 @@ export default class App extends React.Component {
     })
   }
 
-  cacheFonts = (fonts) => {
+  cacheFonts = fonts => {
     return fonts.map(font => Font.loadAsync(font))
   }
 
@@ -34,30 +34,38 @@ export default class App extends React.Component {
     const imageAssets = this.cacheImages([
       require('./assets/icons/app.png'),
       require('./assets/icons/loading.png'),
-      require('./assets/icons/yaba_logo.png')
+      require('./assets/icons/yaba_logo.png'),
     ])
     const fontAssets = this.cacheFonts([
-      {'nemoy-bold': require('./assets/fonts/NemoyBold.otf')},
-      {'nemoy-medium': require('./assets/fonts/NemoyMedium.otf')},
-      {'nemoy-light': require('./assets/fonts/NemoyLight.otf')}
+      { 'os-bold': require('./assets/fonts/OpenSans-Bold.ttf') },
+      { 'os-reg': require('./assets/fonts/OpenSans-Regular.ttf') },
+      { 'os-lite': require('./assets/fonts/OpenSans-Light.ttf') },
     ])
-    await Promise.all([
-      ...imageAssets,
-      ...fontAssets,
-    ])
+    await Promise.all([...imageAssets, ...fontAssets])
     this.setState({ isLoading: false })
   }
 
   render() {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return <AppLoading />
     }
     return (
-      <View style={{flex: 1}}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-        {Platform.OS === 'android' && <View style={{ height: Constants.statusBarHeight, backgroundColor: 'rgba(0,0,0,0.2)' }} />}
-        <MainNav />
-      </View>
+      <ThemeProvider theme={theme}>
+        <ApolloProvider client={client}>
+          <View style={{ flex: 1 }}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+            {Platform.OS === 'android' && (
+              <View
+                style={{
+                  height: Constants.statusBarHeight,
+                  backgroundColor: 'rgba(0,0,0,0.2)',
+                }}
+              />
+            )}
+            <AppNav screenProps={{ theme }} />
+          </View>
+        </ApolloProvider>
+      </ThemeProvider>
     )
   }
 }

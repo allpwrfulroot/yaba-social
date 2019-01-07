@@ -1,0 +1,14 @@
+query AllPosts($count: Int) {
+  allPosts(count: $count) {
+    id
+    body
+    createdAt
+    title
+    author {
+      id
+      firstName
+      lastName
+      avatar
+    }
+  }
+}
