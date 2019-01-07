@@ -26,7 +26,7 @@ export default class HomeScreen extends Component {
   renderSeparator = () => <View style={{ height: 16, width: 16 }} />
 
   renderEmptyList = () => (
-    <StatusMessage>Hmm, something went wrong. Try again?</StatusMessage>
+    <StatusMessage status="empty" message="Oh no, the data is missing! Try again?"/>
   )
 
   render() {
@@ -37,10 +37,10 @@ export default class HomeScreen extends Component {
       <Query query={AllPosts} variables={{ count: 10 }}>
         {({ data, error, loading, refetch }) => {
           if (error) {
-            return <StatusMessage>Error: {JSON.stringify(error)}</StatusMessage>
+            return <StatusMessage status="error" message={`Error: ${JSON.stringify(error)}`}/>
           }
           if (loading && !isRefreshing) {
-            return <StatusMessage>Loading...</StatusMessage>
+            return <StatusMessage status="loading" message="Loading..." />
           }
           return (
             <FlatList

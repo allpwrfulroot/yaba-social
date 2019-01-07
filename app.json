@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "YABA",
-    "description": "Demo chat app with crazy react-navigation, Apollo+Graph.cool, Apollo Client state management, and login/signup/profile. github.com/allpwrfulroot/yaba-social",
+    "description": "Demo app with real-world complexity react-navigation, themed styled-components, Apollo Client, and more. Data provided by the lovely FakerQL",
     "slug": "yaba-social",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -25,6 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "githubUrl": "https://github.com/TAFKA-Labs/yaba-social"
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, AsyncStorage, Text } from 'react-native'
+import { ActivityIndicator, AsyncStorage, Image } from 'react-native'
 import { Jumbotron } from '../components'
 
 export default class AuthLoadingScreen extends React.Component {
@@ -15,8 +15,8 @@ export default class AuthLoadingScreen extends React.Component {
   render() {
     return (
       <Jumbotron mode="primary">
-        <Text style={{ color: 'white' }}>Loading...</Text>
-        <ActivityIndicator />
+        <Image source={require('../assets/icons/yaba_logo.png')} style={{ width: 60, height: 60 }}/>
+        <ActivityIndicator color='white'/>
       </Jumbotron>
     )
   }

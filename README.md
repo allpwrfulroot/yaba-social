@@ -10,3 +10,11 @@ View for yourself [on Expo](https://exp.host/@allpwrfulroot/yaba-social)
 
 Send questions, requests, etc. as Issues
 
+## Roadmap (no particular order)
+
+- [ ] TypeScript / ts-lint / jest  [WIP]
+- [ ] Data visualization
+- [ ] Restore custom tab bar + search demo
+- [ ] Dual drawers (add custom on RHS)
+- [ ] Separate drawer items per tab
+- [ ] Functioning login / sign up
