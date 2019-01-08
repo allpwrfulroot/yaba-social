@@ -54,14 +54,6 @@ export default class App extends React.Component {
         <ApolloProvider client={client}>
           <View style={{ flex: 1 }}>
             {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-            {Platform.OS === 'android' && (
-              <View
-                style={{
-                  height: Constants.statusBarHeight,
-                  backgroundColor: 'rgba(0,0,0,0.2)',
-                }}
-              />
-            )}
             <AppNav screenProps={{ theme }} />
           </View>
         </ApolloProvider>
